@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice | Lesson task</title>
+    <link rel="stylesheet" href="/js13/css/reset.css">
+    <link rel="stylesheet" href="/js13/css/style.css">
+    <script src="/js13/js/app.js" defer></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="userInfo"></div>
+        <form>
+            <h2>Forma</h2>
+            <div class="input-group">
+                <h5>Name</h5>
+                <div class="name-group">
+                    <input type="text" name="name" placeholder="First Name">
+                    <input type="text" name="name" placeholder="Second Name">
+                </div>
+            </div>
+            <div class="input-group">
+                <h5>Date of Birth</h5>
+                <input type="date" name="date" placeholder="Date of Birth">
+            </div>
+            <div class="input-group">
+                <h5>Sex</h5>
+                <label>Male<input type="radio" name="sex" value="Male"></label>
+                <label>Female<input type="radio" name="sex" value="Female"></label>
+            </div>
+            <div class="input-group">
+                <h5>City</h5>
+                <select name="city">
+                    <option value="KIV">Kiev</option>
+                    <option value="ODE">Odessa</option>
+                    <option value="WRS">Warsaw</option>
+                    <option value="PHA">Praha</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <h5>Adress</h5>
+                <textarea name="adress" placeholder="Your adress"></textarea>
+            </div>
+            <div class="input-group ">
+                <h5>Languages</h5>
+                <div class="checkbox-group">
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="lang" value="eng">English</label>
+                        <label><input type="checkbox" name="lang" value="czk">Czech</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="lang" value="pol">Polish</label>
+                        <label><input type="checkbox" name="lang" value="ukr">Ukrainian</label>
+                    </div>
+                </div>
+            </div>
+            <button type="save">Register</button>
+        </form>
+    </div>
+</body>
+
+</html>
