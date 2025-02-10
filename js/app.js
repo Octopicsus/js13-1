@@ -11,7 +11,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const citySelect = form.querySelector('select[name="city"]');
   const addressTextarea = form.querySelector('textarea[name="adress"]');
   const languageCheckboxes = form.querySelectorAll('input[name="lang"]');
-  const userInfoDiv = document.querySelector(".userInfo");
+  const userInfo = document.querySelector(".userInfo");
+  const notification = document.querySelector(".notification");
+
+  //
+  //
+  // ---- Regular Expressions ----
+
+  const regexPatterns = {
+    name: /^[A-Za-z]+$/,
+    date: /^\d{4}-\d{2}-\d{2}$/,
+  };
 
   //
   //
@@ -20,8 +30,18 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    //
+    const formData = getFormData();
+    if (!validateFormData(formData)) {
+      return;
+    }
+    showUserInfo(formData);
+  });
 
+  //
+  //
+  // ---- Get Form Data ----
+
+  function getFormData() {
     const firstName = firstNameInput.value.trim();
     const secondName = secondNameInput.value.trim();
     const dateOfBirth = dateInput.value.trim();
@@ -32,58 +52,94 @@ document.addEventListener("DOMContentLoaded", function () {
       .filter((input) => input.checked)
       .map((input) => input.value);
 
-    //
-    // ---- Regular Expressions ----
+    return {
+      firstName,
+      secondName,
+      dateOfBirth,
+      sex,
+      city,
+      address,
+      languages,
+    };
+  }
 
-    const nameRegex = /^[A-Za-z]+$/;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  //
+  //
+  // ---- Validate Form Data ----
 
-    //
-    //
-    // ---- Validation ----
-
-    if (!nameRegex.test(firstName)) {
-      alert("First Name is invalid. Only letters are allowed.");
-      return;
+  function validateFormData({
+    firstName,
+    secondName,
+    dateOfBirth,
+    sex,
+    city,
+    address,
+    languages,
+  }) {
+    if (!regexPatterns.name.test(firstName)) {
+      showNotification("First Name is invalid. Only letters are allowed.");
+      return false;
     }
 
-    if (!nameRegex.test(secondName)) {
-      alert("Second Name is invalid. Only letters are allowed.");
-      return;
+    if (!regexPatterns.name.test(secondName)) {
+      showNotification("Second Name is invalid. Only letters are allowed.");
+      return false;
     }
 
-    console.log(dateOfBirth);
-
-    if (!dateRegex.test(dateOfBirth)) {
-      alert("Date of Birth is invalid. Use the format YYYY-MM-DD.");
-      return;
+    if (!regexPatterns.date.test(dateOfBirth)) {
+      showNotification("Date of Birth is invalid. Use the format YYYY-MM-DD.");
+      return false;
     }
 
     if (!sex) {
-      alert("Please select your sex.");
-      return;
+      showNotification("Please select your sex.");
+      return false;
     }
 
     if (!city) {
-      alert("Please select your city.");
-      return;
+      showNotification("Please select your city.");
+      return false;
     }
 
     if (address.length === 0) {
-      alert("Please enter your address.");
-      return;
+      showNotification("Please enter your address.");
+      return false;
     }
 
     if (languages.length === 0) {
-      alert("Please select at least one language.");
-      return;
+      showNotification("Please select at least one language.");
+      return false;
     }
 
-    //
-    //
-    // ---- Show User Information ----
+    return true;
+  }
 
-    userInfoDiv.innerHTML = `
+  //
+  //
+  // ---- Show Notification ----
+
+  function showNotification(message) {
+    notification.textContent = message;
+
+    setTimeout(() => {
+      notification.textContent = "";
+    }, 4000);
+  }
+
+  //
+  //
+  // ---- Show User Information ----
+
+  function showUserInfo({
+    firstName,
+    secondName,
+    dateOfBirth,
+    sex,
+    city,
+    address,
+    languages,
+  }) {
+    userInfo.innerHTML = `
     <div class="user-info">
     <h3>User Information</h3>
     <div class="user-wrapper">
@@ -96,14 +152,14 @@ document.addEventListener("DOMContentLoaded", function () {
     <p><strong>Languages:</strong> ${languages.join(", ")}</p>
     </div>
     </div>`;
-    userInfoDiv.style.display = "flex";
-  });
+    userInfo.style.display = "flex";
+  }
 
   //
   //
   // ---- Reload Page ----
 
-  userInfoDiv.addEventListener("click", () => {
+  userInfo.addEventListener("click", () => {
     location.reload();
   });
 });
